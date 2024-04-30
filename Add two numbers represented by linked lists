@@ -1,0 +1,151 @@
+//{ Driver Code Starts
+// driver
+
+import java.util.*;
+
+class Node {
+    int data;
+    Node next;
+
+    Node(int d) {
+        data = d;
+        next = null;
+    }
+}
+
+class GfG{
+    
+    static void printList(Node n){
+        while(n!=null){
+            System.out.print(n.data+" ");
+            n = n.next;
+        }
+        System.out.println();
+    }
+    
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int T = sc.nextInt();
+        
+        while (T-- > 0) {
+            
+            int n = sc.nextInt();
+            int val = sc.nextInt();
+            
+            Node num1 = new Node(val);
+            Node tail = num1;
+            for(int i=0; i<n-1; i++)
+            {
+                val = sc.nextInt();
+                tail.next = new Node(val);
+                tail = tail.next;
+            }
+            
+            int m = sc.nextInt();
+            val = sc.nextInt();
+            
+            Node num2 = new Node(val);
+            tail = num2;
+            for(int i=0; i<m-1; i++)
+            {
+                val = sc.nextInt();
+                tail.next = new Node(val);
+                tail = tail.next;
+            }
+            
+            Solution g = new Solution();
+            Node res = g.addTwoLists(num1, num2);
+            printList(res);
+        }
+    }
+}
+
+// } Driver Code Ends
+
+
+/* node for linked list
+
+class Node {
+    int data;
+    Node next;
+
+    Node(int d) {
+        data = d;
+        next = null;
+    }
+}
+
+*/
+
+class Solution
+{
+    //Function to add two numbers represented by linked list.
+    static Node addTwoLists(Node first, Node second) {
+        // NOTE: input can be large, so we must use strings to store all these
+        Node currentFirst = first, currentSecond = second;
+        String n1 = "", n2 = "";
+
+        while (currentFirst != null || currentSecond != null) {
+            if (currentFirst != null) {
+                n1 += currentFirst.data;
+                currentFirst = currentFirst.next;
+            }
+            if (currentSecond != null) {
+                n2 += currentSecond.data;
+                currentSecond = currentSecond.next;
+            }
+        }
+
+        // NOTE: BigInteger gives TLE, manually do the addition
+        // String sumStr = (new BigInteger(n1).add(new BigInteger(n2))).toString();
+        String sumStr = sum(n1, n2);
+
+        Node result = new Node(0);
+        Node current = result;
+
+        for (int i = 0; i < sumStr.length(); i++) {
+            char c = sumStr.charAt(i);
+            current.data = c - '0';
+            if (i != sumStr.length() - 1) {
+                current.next = new Node(0);
+                current = current.next;
+            }
+        }
+        while(result.data==0&&result.next!=null){
+            result = result.next;
+        }
+
+        return result;
+    }
+
+    private static String sum(String a, String b) {
+        String result = "";
+        int carry = 0;
+        int aLen = a.length() - 1, bLen = b.length() - 1;
+
+        while (aLen >= 0 || bLen >= 0) {
+            int ca, cb;
+            try {
+                ca = a.charAt(aLen) - '0';
+                aLen--;
+            } catch (IndexOutOfBoundsException e) {
+                ca = 0;
+            }
+            try {
+                cb = b.charAt(bLen) - '0';
+                bLen--;
+            } catch (IndexOutOfBoundsException e) {
+                cb = 0;
+            }
+
+            int sum = ca + cb + carry;
+            carry = sum / 10;
+            result = (sum % 10) + result;
+        }
+
+        if (carry != 0)
+            result = carry + result;
+    
+        return result;
+    }
+}
