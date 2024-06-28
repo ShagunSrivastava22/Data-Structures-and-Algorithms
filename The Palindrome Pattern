@@ -1,0 +1,91 @@
+//{ Driver Code Starts
+// Initial Template for Java
+
+// Initial Template for Java
+
+import java.io.*;
+import java.util.*;
+
+class GFG {
+    public static void main(String args[]) throws IOException {
+
+        BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
+
+        Solution ob = new Solution();
+        int t = Integer.parseInt(read.readLine());
+        while (t-- > 0) {
+            String input_line[] = read.readLine().trim().split("\\s+");
+            int n = Integer.parseInt(input_line[0]);
+            String input_line1[] = read.readLine().trim().split("\\s+");
+            int[][] a = new int[n][n];
+            int c = 0;
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    a[i][j] = Integer.parseInt(input_line1[c]);
+                    c++;
+                }
+            }
+            String ans = ob.pattern(a);
+            System.out.println(ans);
+        }
+    }
+}
+
+// } Driver Code Ends
+
+
+// User function Template for Java
+
+class Solution {
+    public String pattern(int[][] arr) {
+        // Code here
+        int n = arr.length;
+        String ans = "-1";
+        
+        for(int i = 0; i < n; i++) {
+            if(isRowPalin(i, arr)) {
+                ans = String.valueOf(i);
+                ans += " R";
+                return ans;
+            }
+        }
+        
+        for(int j = 0; j < n; j++) {
+            if(isColPalin(j, arr)) {
+                ans = String.valueOf(j);
+                ans += " C";
+                return ans;
+            }
+        }
+        
+        return ans;
+    }
+
+    private boolean isRowPalin(int i, int[][] arr) {
+        int n = arr[i].length;
+        int s = 0;
+        int e = n - 1;
+        while(s <= e) {
+            if(arr[i][s] != arr[i][e]) {
+                return false;
+            }
+            s++;
+            e--;
+        }
+        return true;
+    }
+
+    private boolean isColPalin(int j, int[][] arr) {
+        int n = arr.length;
+        int t = 0;
+        int b = n - 1;
+        while(t <= b) {
+            if(arr[t][j] != arr[b][j]) {
+                return false;
+            }
+            t++;
+            b--;
+        }
+        return true;
+    }
+}
